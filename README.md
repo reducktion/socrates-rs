@@ -22,8 +22,6 @@ This rust crate is a port of the [php package socrates](https://github.com/reduc
 <p>This crate can be useful for many things, such as validating a user's ID for finance related applications or verifying a user's age without asking for it explicitly. However, we recommend you review your country's data protection laws before storing any information.</p>
 
 ## Usage
-Currently, due to a dependency on `assoc_char_funcs`, this crate requires rust nightly to run.
-
 Two functions are available with socrates-rs:
  * `validate_id` which returns a boolean indicating if an id is valid in a specific country
  * `extract_information` which returns an Optional `Citizen` with information retrievable from the identifier (gender, date of birth, ...)
