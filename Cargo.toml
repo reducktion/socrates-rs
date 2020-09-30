@@ -1,8 +1,8 @@
 [package]
-name = "socrates"
+name = "socrates_rs"
 version = "1.0.0"
 authors = ["SLourenco <sergio.santos.lourenco@protonmail.com>"]
-edition = "2020"
+edition = "2018"
 repository = "https://github.com/reducktion/socrates-rs"
 readme = "README.md"
 license = "MIT"
