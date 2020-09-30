@@ -1,8 +1,12 @@
 [package]
 name = "socrates"
-version = "0.1.0"
-authors = ["SLourenco <sergio.lourenco@ist.utl.pt>"]
-edition = "2018"
+version = "1.0.0"
+authors = ["SLourenco <sergio.santos.lourenco@protonmail.com>"]
+edition = "2020"
+repository = "https://github.com/reducktion/socrates-rs"
+readme = "README.md"
+license = "MIT"
+description = "Validate and Extract information from National Identification Numbers."
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
