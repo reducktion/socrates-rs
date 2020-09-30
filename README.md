@@ -5,9 +5,9 @@
 ```rust
 use socrates_rs;
 
-socrates_rs::validate_id("14349483 0 ZV3", socrates::country::Code::PT);
+socrates_rs::validate_id("14349483 0 ZV3", socrates_rs::country::Code::PT);
 
-let citizen = socrates_rs::extract_information("2820819398814 09", socrates::country::Code::FR).unwrap();
+let citizen = socrates_rs::extract_information("2820819398814 09", socrates_rs::country::Code::FR).unwrap();
 assert_eq!(citizen.gender, 'F');
 assert_eq!(citizen.year_of_birth, 1982);
 assert_eq!(citizen.month_of_birth.unwrap(), 8);
