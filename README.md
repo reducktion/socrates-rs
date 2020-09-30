@@ -1,2 +1,2 @@
-# socrates-rs
-Rust implementation of the php version
+# socrates
+Rust implementation of https://github.com/reducktion/socrates
