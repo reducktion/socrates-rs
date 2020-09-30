@@ -35,7 +35,7 @@ impl validator::CountryValidator for ItalyValidator {
             is_odd = !is_odd;
         }
 
-        let control_letter = char::from_digit( (sum % 26) + 10, 36).unwrap().to_uppercase().to_string();
+        let control_letter = get_remainder_char( sum % 26).to_string();
         return (standard_id[15..].parse::<String>().unwrap()) == control_letter;
     }
 
@@ -87,6 +87,38 @@ fn get_odd_char_value(character: char) -> u32 {
         'Y' => 24,
         'Z' => 23,
         _ => panic!("Unrecognized letter"),
+    }
+}
+
+fn get_remainder_char(digit: u32) -> char {
+    return match digit {
+        0 => 'A',
+        1 => 'B',
+        2 => 'C',
+        3 => 'D',
+        4 => 'E',
+        5 => 'F',
+        6 => 'G',
+        7 => 'H',
+        8 => 'I',
+        9 => 'J',
+        10 => 'K',
+        11 => 'L',
+        12 => 'M',
+        13 => 'N',
+        14 => 'O',
+        15 => 'P',
+        16 => 'Q',
+        17 => 'R',
+        18 => 'S',
+        19 => 'T',
+        20 => 'U',
+        21 => 'V',
+        22 => 'W',
+        23 => 'X',
+        24 => 'Y',
+        25 => 'Z',
+        _ => panic!("out of range for digit conversion"),
     }
 }
 

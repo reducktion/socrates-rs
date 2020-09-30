@@ -1,7 +1,9 @@
 use std::borrow::Borrow;
 
 pub fn compute_luhn_10_check_digit(code: &str) -> u32 {
-    let sum: u32 = luhn_10_sum(code);
+    let mut code_with_check_digit = code.to_owned();
+    code_with_check_digit.push_str("0");
+    let sum: u32 = luhn_10_sum(code_with_check_digit.borrow());
     return (sum * 9) % 10;
 }
 
@@ -10,9 +12,10 @@ pub fn validate_luhn_10(code: &str) -> bool {
     return (sum % 10) == 0;
 }
 
+// https://en.wikipedia.org/wiki/Luhn_algorithm
 fn luhn_10_sum(code: &str) -> u32 {
     let mut sum: u32 = 0;
-    let mut is_odd = (code.len() % 2) != 0;
+    let mut is_odd = (code.chars().count() % 2) != 0;
     for char in code.chars() {
         if is_odd {
             sum += char.to_digit(36).unwrap()
@@ -76,6 +79,7 @@ fn verhoeff_check_digit(code: &str) -> usize {
 #[cfg(test)]
 mod tests {
     use crate::validator::algorithms::{compute_luhn_10_check_digit, validate_luhn_10, validate_verhoeff, compute_verhoeff_check_digit};
+    use std::borrow::Borrow;
 
     #[test]
     fn luhn_validation_algorithm() {
