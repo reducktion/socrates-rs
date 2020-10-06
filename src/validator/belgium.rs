@@ -5,6 +5,13 @@ use chrono::{NaiveDate, Utc};
 
 pub(crate) struct BelgiumValidator;
 
+/**
+ Belgium National Identifier Number code validation.
+
+ Validation logic source: https://www.ibz.rrn.fgov.be/fileadmin/user_upload/nl/rr/instructies/IT-lijst/IT000_Rijksregisternummer.pdf
+
+ Another (english) version for the validation can be viewed in wikipedia: https://en.wikipedia.org/wiki/National_identification_number#Belgium
+**/
 impl validator::CountryValidator for BelgiumValidator {
     fn validate_id(&self, id: &str) -> bool {
         let standard_id = id.replace(" ", "").replace(".", "").replace("-","").to_uppercase();
