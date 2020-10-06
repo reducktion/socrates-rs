@@ -79,7 +79,6 @@ fn verhoeff_check_digit(code: &str) -> usize {
 #[cfg(test)]
 mod tests {
     use crate::validator::algorithms::{compute_luhn_10_check_digit, validate_luhn_10, validate_verhoeff, compute_verhoeff_check_digit};
-    use std::borrow::Borrow;
 
     #[test]
     fn luhn_validation_algorithm() {

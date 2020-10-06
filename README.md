@@ -14,6 +14,15 @@ assert_eq!(citizen.month_of_birth.unwrap(), 8);
 assert_eq!(citizen.place_of_birth.unwrap(), "Corrèze");
 ```
 ------
+
+## Change Log
+
+### master
+* Add Belgium
+
+### 1.0.0
+Initial release
+
 # Introduction
 This rust crate is a port of the [php package socrates](https://github.com/reducktion/socrates).
 

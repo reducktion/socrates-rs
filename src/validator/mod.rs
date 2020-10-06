@@ -18,6 +18,7 @@ mod italy;
 mod usa;
 mod canada;
 mod luxembourg;
+mod belgium;
 
 
 pub fn get_validator(country: country::Code) -> Box<dyn CountryValidator> {
@@ -28,7 +29,8 @@ pub fn get_validator(country: country::Code) -> Box<dyn CountryValidator> {
         country::Code::IT => Box::new(italy::ItalyValidator),
         country::Code::US => Box::new(usa::UsaValidator),
         country::Code::CA => Box::new(canada::CanadaValidator),
-        country::Code::LU => Box::new(luxembourg::LuxembourgValidator)
+        country::Code::LU => Box::new(luxembourg::LuxembourgValidator),
+        country::Code::BE => Box::new(belgium::BelgiumValidator)
     };
 }
 
@@ -76,5 +78,11 @@ mod tests {
     fn lu_validator_selected_for_luxembourg_country_code() {
         let validator = super::get_validator(super::country::Code::LU);
         assert_eq!(mem::discriminant(&crate::country::Code::LU), mem::discriminant(&validator.country_code()));
+    }
+
+    #[test]
+    fn be_validator_selected_for_belgium_country_code() {
+        let validator = super::get_validator(super::country::Code::BE);
+        assert_eq!(mem::discriminant(&crate::country::Code::BE), mem::discriminant(&validator.country_code()));
     }
 }
