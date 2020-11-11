@@ -15,6 +15,7 @@ assert_eq!(citizen.place_of_birth.unwrap(), "Corrèze");
 ```
 ------
 
+
 ## Change Log
 
 ### master
