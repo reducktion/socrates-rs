@@ -20,6 +20,8 @@ assert_eq!(citizen.place_of_birth.unwrap(), "Corrèze");
 
 ### master
 * Add Belgium
+* Add Denmark
+* Add generator feature (Denmark)
 
 ### 1.0.0
 Initial release

@@ -1,3 +1,4 @@
+use chrono::NaiveDate;
 use crate::Citizen;
 use crate::country;
 
@@ -9,6 +10,14 @@ pub trait CountryValidator {
     fn validate_id(&self, id: &str) -> bool;
     fn country_code(&self) -> country::Code;
     fn extract_citizen(&self, id: &str) -> Option<Citizen>;
+
+    fn sanitize_id(&self, id: &str) -> String {
+        id.replace(" ", "").replace("-", "").to_uppercase()
+    }
+
+    fn is_date_valid(&self, year: u32, month: u32, day: u32) -> bool {
+        NaiveDate::from_ymd_opt(year as i32, month, day).is_some()
+    }
 }
 
 mod portugal;
@@ -19,70 +28,64 @@ mod usa;
 mod canada;
 mod luxembourg;
 mod belgium;
+mod denmark;
 
 
-pub fn get_validator(country: country::Code) -> Box<dyn CountryValidator> {
+pub fn get_validator(country: &country::Code) -> Box<dyn CountryValidator> {
     return match country {
-        country::Code::PT => Box::new(portugal::PortugalValidator),
-        country::Code::FR => Box::new(france::FranceValidator),
-        country::Code::ES => Box::new(spain::SpainValidator),
-        country::Code::IT => Box::new(italy::ItalyValidator),
-        country::Code::US => Box::new(usa::UsaValidator),
+        country::Code::BE => Box::new(belgium::BelgiumValidator),
         country::Code::CA => Box::new(canada::CanadaValidator),
+        country::Code::DK => Box::new(denmark::DenmarkValidator),
+        country::Code::ES => Box::new(spain::SpainValidator),
+        country::Code::FR => Box::new(france::FranceValidator),
+        country::Code::IT => Box::new(italy::ItalyValidator),
         country::Code::LU => Box::new(luxembourg::LuxembourgValidator),
-        country::Code::BE => Box::new(belgium::BelgiumValidator)
+        country::Code::PT => Box::new(portugal::PortugalValidator),
+        country::Code::US => Box::new(usa::UsaValidator)
     };
 }
 
 #[cfg(test)]
 mod tests {
     use std::mem;
+    use crate::Citizen;
+    use crate::country::Code;
+    use crate::validator::CountryValidator;
+    use strum::IntoEnumIterator;
 
-    #[test]
-    fn pt_validator_selected_for_portugal_country_code() {
-        let validator = super::get_validator(super::country::Code::PT);
-        assert_eq!(mem::discriminant(&crate::country::Code::PT), mem::discriminant(&validator.country_code()));
+    struct TestValidator {}
+
+    impl CountryValidator for TestValidator {
+        fn validate_id(&self, _id: &str) -> bool {
+            panic!()
+        }
+
+        fn country_code(&self) -> Code {
+            panic!()
+        }
+
+        fn extract_citizen(&self, _id: &str) -> Option<Citizen> {
+            panic!()
+        }
     }
 
     #[test]
-    fn fr_validator_selected_for_france_country_code() {
-        let validator = super::get_validator(super::country::Code::FR);
-        assert_eq!(mem::discriminant(&crate::country::Code::FR), mem::discriminant(&validator.country_code()));
+    fn validator_trait() {
+        let validator = TestValidator{};
+        assert_eq!(validator.sanitize_id("1"), "1");
+        assert_eq!(validator.sanitize_id("1-"), "1");
+        assert_eq!(validator.sanitize_id("1 "), "1");
+        assert_eq!(validator.sanitize_id(" 1 - 2"), "12");
+
+        assert!(validator.is_date_valid(2021, 1, 10));
+        assert!(!validator.is_date_valid(2021, 15, 1));
     }
 
     #[test]
-    fn es_validator_selected_for_spain_country_code() {
-        let validator = super::get_validator(super::country::Code::ES);
-        assert_eq!(mem::discriminant(&crate::country::Code::ES), mem::discriminant(&validator.country_code()));
-    }
-
-    #[test]
-    fn it_validator_selected_for_italy_country_code() {
-        let validator = super::get_validator(super::country::Code::IT);
-        assert_eq!(mem::discriminant(&crate::country::Code::IT), mem::discriminant(&validator.country_code()));
-    }
-
-    #[test]
-    fn us_validator_selected_for_usa_country_code() {
-        let validator = super::get_validator(super::country::Code::US);
-        assert_eq!(mem::discriminant(&crate::country::Code::US), mem::discriminant(&validator.country_code()));
-    }
-
-    #[test]
-    fn ca_validator_selected_for_canada_country_code() {
-        let validator = super::get_validator(super::country::Code::CA);
-        assert_eq!(mem::discriminant(&crate::country::Code::CA), mem::discriminant(&validator.country_code()));
-    }
-
-    #[test]
-    fn lu_validator_selected_for_luxembourg_country_code() {
-        let validator = super::get_validator(super::country::Code::LU);
-        assert_eq!(mem::discriminant(&crate::country::Code::LU), mem::discriminant(&validator.country_code()));
-    }
-
-    #[test]
-    fn be_validator_selected_for_belgium_country_code() {
-        let validator = super::get_validator(super::country::Code::BE);
-        assert_eq!(mem::discriminant(&crate::country::Code::BE), mem::discriminant(&validator.country_code()));
+    fn validator_selector() {
+        for country in Code::iter() {
+            let validator = super::get_validator(&country);
+            assert_eq!(mem::discriminant(&country), mem::discriminant(&validator.country_code()));
+        }
     }
 }

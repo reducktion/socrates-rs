@@ -1,4 +1,5 @@
 use socrates_rs;
+use socrates_rs::Citizen;
 
 #[test]
 fn validate_id_portugal_valid_test() {
@@ -27,4 +28,16 @@ fn extract_france_test() {
     assert_eq!(citizen.year_of_birth, 1982);
     assert_eq!(citizen.month_of_birth.unwrap(), 8);
     assert_eq!(citizen.place_of_birth.unwrap(), "Corrèze");
+}
+
+#[test]
+fn generator_denmark() {
+    let id = socrates_rs::generate_id(&Citizen {
+        gender: 'M',
+        year_of_birth: 1991,
+        month_of_birth: Some(6),
+        day_of_birth: Some(16),
+        place_of_birth: None
+    }, socrates_rs::country::Code::DK).unwrap();
+    assert_eq!(id, "160691-3113");
 }
