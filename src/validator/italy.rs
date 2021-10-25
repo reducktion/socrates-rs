@@ -1,7 +1,7 @@
-use crate::{Citizen, validator};
 use crate::country::Code;
 use crate::validator::date;
 use crate::validator::regions;
+use crate::{validator, Citizen};
 
 pub(crate) struct ItalyValidator;
 
@@ -35,7 +35,7 @@ impl validator::CountryValidator for ItalyValidator {
             is_odd = !is_odd;
         }
 
-        let control_letter = get_remainder_char( sum % 26).to_string();
+        let control_letter = get_remainder_char(sum % 26).to_string();
         return (standard_id[15..].parse::<String>().unwrap()) == control_letter;
     }
 
@@ -53,7 +53,10 @@ impl validator::CountryValidator for ItalyValidator {
             year_of_birth: date::get_year_of_birth(&id[6..8]),
             month_of_birth: get_month_of_birth(id[8..9].parse::<char>().unwrap()),
             day_of_birth: Some(get_day_of_birth(&id[9..11])),
-            place_of_birth: regions::get_region_from_csv(&id[11..15], "./src/validator/regions/italy_regions.csv"), //italy_regions::get_region(&id[11..15]),
+            place_of_birth: regions::get_region_from_csv(
+                &id[11..15],
+                "./src/validator/regions/italy_regions.csv",
+            ), //italy_regions::get_region(&id[11..15]),
         });
     }
 }
@@ -87,7 +90,7 @@ fn get_odd_char_value(character: char) -> u32 {
         'Y' => 24,
         'Z' => 23,
         _ => panic!("Unrecognized letter"),
-    }
+    };
 }
 
 fn get_remainder_char(digit: u32) -> char {
@@ -119,16 +122,12 @@ fn get_remainder_char(digit: u32) -> char {
         24 => 'Y',
         25 => 'Z',
         _ => panic!("out of range for digit conversion"),
-    }
+    };
 }
 
 fn get_even_char_value(character: char) -> u8 {
     let digit = character.to_digit(36).unwrap() as u8;
-    return if digit > 9 {
-        digit - 10_u8
-    } else {
-        digit
-    }
+    return if digit > 9 { digit - 10_u8 } else { digit };
 }
 
 fn get_month_of_birth(letter: char) -> Option<u8> {
@@ -145,32 +144,24 @@ fn get_month_of_birth(letter: char) -> Option<u8> {
         'R' => Some(10),
         'S' => Some(11),
         'T' => Some(12),
-        _ => None
+        _ => None,
     };
 }
 
 fn get_day_of_birth(day_of_birth: &str) -> u8 {
     let day = day_of_birth.parse::<u8>().unwrap();
-    return if day > 40 {
-        day - 40_u8
-    } else {
-        day
-    }
+    return if day > 40 { day - 40_u8 } else { day };
 }
 
 fn get_gender(day_of_birth: &str) -> char {
     let day = day_of_birth.parse::<u8>().unwrap();
-    return if day > 40 {
-        'F'
-    } else {
-        'M'
-    }
+    return if day > 40 { 'F' } else { 'M' };
 }
 
 #[cfg(test)]
 mod tests {
-    use crate::validator::CountryValidator;
     use crate::validator::italy::{get_even_char_value, get_odd_char_value};
+    use crate::validator::CountryValidator;
 
     #[test]
     fn it_validator_requires_len_of_16() {
@@ -217,7 +208,10 @@ mod tests {
     #[test]
     fn it_extractor_returns_none_for_invalid_id() {
         let validator = super::validator::italy::ItalyValidator;
-        assert_eq!(validator.extract_citizen("ARLSNT66P65Z404R 01").is_none(), true);
+        assert_eq!(
+            validator.extract_citizen("ARLSNT66P65Z404R 01").is_none(),
+            true
+        );
     }
 
     #[test]
@@ -236,7 +230,9 @@ mod tests {
         assert_eq!(citizen_lothair.year_of_birth, 1982);
         assert_eq!(citizen_lothair.month_of_birth.unwrap(), 9);
         assert_eq!(citizen_lothair.day_of_birth.unwrap(), 25);
-        assert_eq!(citizen_lothair.place_of_birth.unwrap(), "STATI UNITI D'AMERICA");
+        assert_eq!(
+            citizen_lothair.place_of_birth.unwrap(),
+            "STATI UNITI D'AMERICA"
+        );
     }
 }
-

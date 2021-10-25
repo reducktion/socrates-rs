@@ -1,7 +1,7 @@
 mod denmark;
 
-use crate::{Citizen, country};
 use crate::country::Code;
+use crate::{country, Citizen};
 
 pub trait CountryIdGenerator {
     fn generate(&self, citizen: &Citizen) -> String;
@@ -11,18 +11,21 @@ pub trait CountryIdGenerator {
 pub fn get_generator(country: country::Code) -> Option<Box<dyn CountryIdGenerator>> {
     return match country {
         Code::DK => Some(Box::new(denmark::DenmarkGenerator)),
-        _ => None
+        _ => None,
     };
 }
 
 #[cfg(test)]
 mod tests {
-    use std::mem;
     use crate::country::Code;
+    use std::mem;
 
     #[test]
     fn generator_selection() {
         let validator = super::get_generator(Code::DK).unwrap();
-        assert_eq!(mem::discriminant(&Code::DK), mem::discriminant(&validator.country_code()));
+        assert_eq!(
+            mem::discriminant(&Code::DK),
+            mem::discriminant(&validator.country_code())
+        );
     }
 }

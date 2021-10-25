@@ -1,7 +1,7 @@
-use crate::{Citizen, validator};
 use crate::country::Code;
-use std::borrow::Borrow;
+use crate::{validator, Citizen};
 use chrono::{NaiveDate, Utc};
+use std::borrow::Borrow;
 
 pub(crate) struct BelgiumValidator;
 
@@ -14,7 +14,11 @@ pub(crate) struct BelgiumValidator;
 **/
 impl validator::CountryValidator for BelgiumValidator {
     fn validate_id(&self, id: &str) -> bool {
-        let standard_id = id.replace(" ", "").replace(".", "").replace("-","").to_uppercase();
+        let standard_id = id
+            .replace(" ", "")
+            .replace(".", "")
+            .replace("-", "")
+            .to_uppercase();
         if standard_id.len() != 11 {
             return false;
         }
@@ -42,14 +46,29 @@ impl validator::CountryValidator for BelgiumValidator {
             return None;
         }
 
-        let standard_id = id.replace(" ", "").replace(".", "").replace("-","").to_uppercase();
-        let before2000 = validate_checksum(standard_id.get(0..9).unwrap(), standard_id.get(9..11).unwrap());
+        let standard_id = id
+            .replace(" ", "")
+            .replace(".", "")
+            .replace("-", "")
+            .to_uppercase();
+        let before2000 = validate_checksum(
+            standard_id.get(0..9).unwrap(),
+            standard_id.get(9..11).unwrap(),
+        );
 
-        let gender = if (standard_id.get(6..9).unwrap().parse::<u64>().unwrap() % 2) == 0 { 'F' } else { 'M' };
-        let year = if before2000 {
-            ("19".to_owned() + standard_id.get(0..2).unwrap()).parse().unwrap()
+        let gender = if (standard_id.get(6..9).unwrap().parse::<u64>().unwrap() % 2) == 0 {
+            'F'
         } else {
-            ("20".to_owned() + standard_id.get(0..2).unwrap()).parse().unwrap()
+            'M'
+        };
+        let year = if before2000 {
+            ("19".to_owned() + standard_id.get(0..2).unwrap())
+                .parse()
+                .unwrap()
+        } else {
+            ("20".to_owned() + standard_id.get(0..2).unwrap())
+                .parse()
+                .unwrap()
         };
 
         return Some(Citizen {
@@ -68,7 +87,11 @@ fn validate_checksum(id: &str, checksum: &str) -> bool {
 }
 
 fn validate_date(date: &str) -> bool {
-    let date_of_birth = NaiveDate::from_ymd(date.get(0..4).unwrap().parse().unwrap(), date.get(4..6).unwrap().parse().unwrap(), date.get(6..8).unwrap().parse().unwrap());
+    let date_of_birth = NaiveDate::from_ymd(
+        date.get(0..4).unwrap().parse().unwrap(),
+        date.get(4..6).unwrap().parse().unwrap(),
+        date.get(6..8).unwrap().parse().unwrap(),
+    );
     return date_of_birth <= Utc::now().naive_local().date();
 }
 

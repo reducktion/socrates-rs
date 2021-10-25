@@ -1,11 +1,10 @@
-use regex::Regex;
 use crate::country::Code;
-use crate::{Citizen, validator};
+use crate::{validator, Citizen};
+use regex::Regex;
 
 pub(crate) struct DenmarkValidator;
 
 const MULTIPLIER: [u32; 10] = [4, 3, 2, 7, 6, 5, 4, 3, 2, 1];
-
 
 /**
  * National Id for Denmark.
@@ -24,8 +23,7 @@ impl validator::CountryValidator for DenmarkValidator {
         let month = standard_id[2..4].parse::<u32>().unwrap();
         let day = standard_id[0..2].parse::<u32>().unwrap();
 
-        return self.is_date_valid(year, month, day) &&
-            validate_checksum(&standard_id);
+        return self.is_date_valid(year, month, day) && validate_checksum(&standard_id);
     }
 
     fn country_code(&self) -> Code {
@@ -34,30 +32,46 @@ impl validator::CountryValidator for DenmarkValidator {
 
     fn extract_citizen(&self, id: &str) -> Option<Citizen> {
         let standard_id = self.sanitize_id(id);
-        let gender = if standard_id[9..].parse::<u32>().unwrap() % 2 == 0 { 'M' } else { 'F' };
+        let gender = if standard_id[9..].parse::<u32>().unwrap() % 2 == 0 {
+            'M'
+        } else {
+            'F'
+        };
         return Some(Citizen {
             gender,
             year_of_birth: extract_year(&standard_id) as i32,
             month_of_birth: Some(standard_id[2..4].parse::<u8>().unwrap()),
             day_of_birth: Some(standard_id[0..2].parse::<u8>().unwrap()),
-            place_of_birth: None
+            place_of_birth: None,
         });
     }
 }
 
-fn extract_year(id:&str) -> u32 {
+fn extract_year(id: &str) -> u32 {
     let century_code = &id[6..7].parse::<u32>().unwrap();
     let year_code = &id[4..6].parse::<u32>().unwrap();
     let century: u32 = match century_code {
         0..=3 => 1900,
-        4 | 9 => if year_code <= &36 { 2000 } else { 1900 },
-        &_ => if year_code >= &58 { 1800 } else { 2000 }
+        4 | 9 => {
+            if year_code <= &36 {
+                2000
+            } else {
+                1900
+            }
+        }
+        &_ => {
+            if year_code >= &58 {
+                1800
+            } else {
+                2000
+            }
+        }
     };
     return century + year_code;
 }
 
-fn validate_checksum(id:&str) -> bool {
-    let mut sum:u32 = 0;
+fn validate_checksum(id: &str) -> bool {
+    let mut sum: u32 = 0;
     for (idx, digit) in id.chars().enumerate() {
         sum += digit.to_digit(36).unwrap() * MULTIPLIER[idx];
     }
@@ -81,11 +95,11 @@ mod tests {
     #[test]
     fn dk_validator_invalid_ids() {
         let validator = super::validator::denmark::DenmarkValidator;
-        assert_eq!(validator.validate_id("161301-0001"), false);  // month too high
-        assert_eq!(validator.validate_id("311101-0001"), false);  // November has 30 days
-        assert_eq!(validator.validate_id("321201-0001"), false);  // day too high
-        assert_eq!(validator.validate_id("290201-0001"), false);  // 29 February only exists in leap year
-        assert_eq!(validator.validate_id("230321-2454"), false);  // bad checksum
+        assert_eq!(validator.validate_id("161301-0001"), false); // month too high
+        assert_eq!(validator.validate_id("311101-0001"), false); // November has 30 days
+        assert_eq!(validator.validate_id("321201-0001"), false); // day too high
+        assert_eq!(validator.validate_id("290201-0001"), false); // 29 February only exists in leap year
+        assert_eq!(validator.validate_id("230321-2454"), false); // bad checksum
     }
 
     #[test]
