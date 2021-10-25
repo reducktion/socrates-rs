@@ -15,6 +15,9 @@ assert_eq!(citizen.place_of_birth.unwrap(), "Corrèze");
 ```
 ------
 
+<p align="center">
+    <img alt="Build" src="https://github.com/reducktion/socrates-rs/actions/workflows/build.yml/badge.svg?branch=master">
+</p>
 
 ## Change Log
 
