@@ -34,11 +34,6 @@ jobs:
         with:
           command: fmt
           args: --all -- --check
-      - name: Run cargo clippy
-        uses: actions-rs/cargo@v1
-        with:
-          command: clippy
-          args: -- -D warnings
   test:
     name: Run cargo test
     runs-on: ubuntu-latest
