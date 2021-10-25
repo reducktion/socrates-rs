@@ -1,10 +1,10 @@
-use chrono::NaiveDate;
-use crate::Citizen;
 use crate::country;
+use crate::Citizen;
+use chrono::NaiveDate;
 
+mod algorithms;
 mod date;
 mod regions;
-mod algorithms;
 
 pub trait CountryValidator {
     fn validate_id(&self, id: &str) -> bool;
@@ -20,16 +20,15 @@ pub trait CountryValidator {
     }
 }
 
-mod portugal;
-mod france;
-mod spain;
-mod italy;
-mod usa;
-mod canada;
-mod luxembourg;
 mod belgium;
+mod canada;
 mod denmark;
-
+mod france;
+mod italy;
+mod luxembourg;
+mod portugal;
+mod spain;
+mod usa;
 
 pub fn get_validator(country: &country::Code) -> Box<dyn CountryValidator> {
     return match country {
@@ -41,16 +40,16 @@ pub fn get_validator(country: &country::Code) -> Box<dyn CountryValidator> {
         country::Code::IT => Box::new(italy::ItalyValidator),
         country::Code::LU => Box::new(luxembourg::LuxembourgValidator),
         country::Code::PT => Box::new(portugal::PortugalValidator),
-        country::Code::US => Box::new(usa::UsaValidator)
+        country::Code::US => Box::new(usa::UsaValidator),
     };
 }
 
 #[cfg(test)]
 mod tests {
-    use std::mem;
-    use crate::Citizen;
     use crate::country::Code;
     use crate::validator::CountryValidator;
+    use crate::Citizen;
+    use std::mem;
     use strum::IntoEnumIterator;
 
     struct TestValidator {}
@@ -71,7 +70,7 @@ mod tests {
 
     #[test]
     fn validator_trait() {
-        let validator = TestValidator{};
+        let validator = TestValidator {};
         assert_eq!(validator.sanitize_id("1"), "1");
         assert_eq!(validator.sanitize_id("1-"), "1");
         assert_eq!(validator.sanitize_id("1 "), "1");
@@ -85,7 +84,10 @@ mod tests {
     fn validator_selector() {
         for country in Code::iter() {
             let validator = super::get_validator(&country);
-            assert_eq!(mem::discriminant(&country), mem::discriminant(&validator.country_code()));
+            assert_eq!(
+                mem::discriminant(&country),
+                mem::discriminant(&validator.country_code())
+            );
         }
     }
 }

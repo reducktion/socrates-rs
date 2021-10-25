@@ -1,5 +1,5 @@
-use crate::{Citizen, validator};
 use crate::country::Code;
+use crate::{validator, Citizen};
 
 pub(crate) struct UsaValidator;
 
@@ -23,7 +23,8 @@ impl validator::CountryValidator for UsaValidator {
             return false;
         }
 
-        if &standard_id == "078051120" || &standard_id == "219099999" || &standard_id == "457555462" {
+        if &standard_id == "078051120" || &standard_id == "219099999" || &standard_id == "457555462"
+        {
             return false;
         }
 
@@ -82,4 +83,3 @@ mod tests {
         assert_eq!(validator.validate_id("671-26-9121"), true);
     }
 }
-

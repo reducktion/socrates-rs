@@ -5,7 +5,7 @@ use serde::Deserialize;
 #[derive(Debug, Deserialize)]
 struct Region {
     code: String,
-    region: String
+    region: String,
 }
 
 pub fn get_region_from_csv(code: &str, file_path: &str) -> Option<String> {
@@ -14,7 +14,7 @@ pub fn get_region_from_csv(code: &str, file_path: &str) -> Option<String> {
     for result in rdr.deserialize() {
         let record: Region = result.unwrap();
         if record.code == code.to_owned() {
-            return Some(record.region)
+            return Some(record.region);
         }
     }
 
@@ -27,6 +27,9 @@ mod tests {
 
     #[test]
     fn year_of_birth() {
-        assert_eq!("ALBANIA", get_region_from_csv("Z100", "./src/validator/regions/italy_regions.csv").unwrap());
+        assert_eq!(
+            "ALBANIA",
+            get_region_from_csv("Z100", "./src/validator/regions/italy_regions.csv").unwrap()
+        );
     }
 }

@@ -1,5 +1,5 @@
-use crate::{Citizen, validator};
 use crate::country::Code;
+use crate::{validator, Citizen};
 
 pub(crate) struct PortugalValidator;
 

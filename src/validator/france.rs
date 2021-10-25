@@ -1,6 +1,6 @@
-use crate::{Citizen, validator};
 use crate::country::Code;
 use crate::validator::date;
+use crate::{validator, Citizen};
 
 pub(crate) struct FranceValidator;
 
@@ -22,7 +22,9 @@ impl validator::CountryValidator for FranceValidator {
         }
 
         for char in standard_id.chars() {
-            if !char.is_digit(10) { return false }
+            if !char.is_digit(10) {
+                return false;
+            }
         }
 
         let control_digit = standard_id.get(13..).unwrap().parse::<u64>().unwrap();
@@ -42,11 +44,19 @@ impl validator::CountryValidator for FranceValidator {
 
         let region = get_region_of_birth(&id[5..7]);
         return Some(Citizen {
-            gender: if String::from(&id[0..1]).parse::<u8>().unwrap() == 1_u8 { 'M' } else { 'F' },
+            gender: if String::from(&id[0..1]).parse::<u8>().unwrap() == 1_u8 {
+                'M'
+            } else {
+                'F'
+            },
             year_of_birth: date::get_year_of_birth(&id[1..3]),
             month_of_birth: get_month_of_birth(&id[3..5]),
             day_of_birth: None,
-            place_of_birth: if region.is_some() { region } else { get_region_of_birth(&id[5..8]) },
+            place_of_birth: if region.is_some() {
+                region
+            } else {
+                get_region_of_birth(&id[5..8])
+            },
         });
     }
 }
@@ -59,7 +69,7 @@ fn get_month_of_birth(code: &str) -> Option<u8> {
         Some(month - 30_u8)
     } else {
         None
-    }
+    };
 }
 
 fn get_region_of_birth(code: &str) -> Option<String> {
@@ -171,16 +181,20 @@ fn get_region_of_birth(code: &str) -> Option<String> {
         "987" => "Polynésie française (voir aussi ISO 3166-1:PF)",
         "988" => "Nouvelle-Calédonie (voir aussi ISO 3166-1:NC)",
         "989" => "Île de Clipperton (voir aussi ISO 3166-1:CP)",
-        _ => ""
+        _ => "",
     };
 
-    return if region.is_empty() { None } else { Some(String::from(region)) }
+    return if region.is_empty() {
+        None
+    } else {
+        Some(String::from(region))
+    };
 }
 
 #[cfg(test)]
 mod tests {
-    use crate::validator::CountryValidator;
     use crate::validator::france::get_region_of_birth;
+    use crate::validator::CountryValidator;
 
     #[test]
     fn fr_validator_requires_min_len_of_15() {
@@ -209,7 +223,10 @@ mod tests {
     #[test]
     fn fr_extractor_returns_none_for_invalid_id() {
         let validator = super::validator::france::FranceValidator;
-        assert_eq!(validator.extract_citizen("2312760989812 01").is_none(), true);
+        assert_eq!(
+            validator.extract_citizen("2312760989812 01").is_none(),
+            true
+        );
     }
 
     #[test]

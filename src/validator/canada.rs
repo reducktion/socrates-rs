@@ -1,6 +1,6 @@
-use crate::{Citizen, validator};
 use crate::country::Code;
 use crate::validator::algorithms;
+use crate::{validator, Citizen};
 
 pub(crate) struct CanadaValidator;
 
@@ -61,4 +61,3 @@ mod tests {
         assert_eq!(validator.validate_id("912 046 737"), true);
     }
 }
-

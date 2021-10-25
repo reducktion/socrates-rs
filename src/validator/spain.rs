@@ -1,5 +1,5 @@
-use crate::{Citizen, validator};
 use crate::country::Code;
+use crate::{validator, Citizen};
 
 pub(crate) struct SpainValidator;
 
@@ -13,9 +13,7 @@ const CONTROL_DIGIT: &str = "TRWAGMYFPDXBNJZSQVHLCKE";
 **/
 impl validator::CountryValidator for SpainValidator {
     fn validate_id(&self, id: &str) -> bool {
-        let standard_id = id
-            .replace("-", "")
-            .to_uppercase();
+        let standard_id = id.replace("-", "").to_uppercase();
 
         if standard_id.len() != 9 {
             return false;
@@ -26,7 +24,8 @@ impl validator::CountryValidator for SpainValidator {
             .replace("X", "0")
             .replace("Y", "1")
             .replace("Z", "2")
-            .parse::<usize>().unwrap();
+            .parse::<usize>()
+            .unwrap();
 
         let result = citizen % 23;
         let validation = &CONTROL_DIGIT[result..result + 1];

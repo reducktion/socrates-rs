@@ -12,7 +12,7 @@ pub fn get_year_of_birth(code: &str) -> i32 {
         year_string.parse::<i32>().unwrap()
     } else {
         year
-    }
+    };
 }
 
 #[cfg(test)]

@@ -1,6 +1,6 @@
 pub mod country;
-mod validator;
 mod generator;
+mod validator;
 
 pub struct Citizen {
     pub gender: char,
@@ -19,7 +19,6 @@ pub fn extract_information(id: &str, country: country::Code) -> Option<Citizen> 
     let country_validator = validator::get_validator(&country);
     return country_validator.extract_citizen(id);
 }
-
 
 pub fn generate_id(citizen: &Citizen, country: country::Code) -> Option<String> {
     let generator = generator::get_generator(country);
