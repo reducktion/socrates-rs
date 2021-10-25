@@ -15,7 +15,6 @@ jobs:
     steps:
       - checkout
       - run: cargo --version
-      - run: cargo fmt
       - run:
           name: Run Tests
           command: "cargo test"
