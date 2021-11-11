@@ -10,7 +10,7 @@ pub(crate) struct BrazilValidator;
 impl validator::CountryValidator for BrazilValidator {
     fn validate_id(&self, id: &str) -> bool {
         let standard_id = self.sanitize_id(id);
-        if standard_id.len() != 11 {
+        if standard_id.len() != 11 || !standard_id.chars().all(char::is_numeric) {
             return false;
         }
 
@@ -48,7 +48,7 @@ mod tests {
     #[test]
     fn br_validator() {
         let validator = super::validator::brazil::BrazilValidator;
-        assert_eq!(validator.validate_id("1234567AB"), false); // not numeric
+        assert_eq!(validator.validate_id("1234567ACAB"), false); // not numeric
         assert_eq!(validator.validate_id("123456789012"), false); // more than 11 digits
         assert_eq!(validator.validate_id("1234567890"), false); // less than 11 digits
         assert_eq!(validator.validate_id("23294954040"), false); // bad checksum
