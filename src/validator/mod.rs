@@ -12,7 +12,10 @@ pub trait CountryValidator {
     fn extract_citizen(&self, id: &str) -> Option<Citizen>;
 
     fn sanitize_id(&self, id: &str) -> String {
-        id.replace(" ", "").replace("-", "").to_uppercase()
+        id.replace(" ", "")
+            .replace("-", "")
+            .replace(".", "")
+            .to_uppercase()
     }
 
     fn is_date_valid(&self, year: u32, month: u32, day: u32) -> bool {
@@ -21,6 +24,7 @@ pub trait CountryValidator {
 }
 
 mod belgium;
+mod brazil;
 mod canada;
 mod denmark;
 mod france;
@@ -33,6 +37,7 @@ mod usa;
 pub fn get_validator(country: &country::Code) -> Box<dyn CountryValidator> {
     return match country {
         country::Code::BE => Box::new(belgium::BelgiumValidator),
+        country::Code::BR => Box::new(brazil::BrazilValidator),
         country::Code::CA => Box::new(canada::CanadaValidator),
         country::Code::DK => Box::new(denmark::DenmarkValidator),
         country::Code::ES => Box::new(spain::SpainValidator),

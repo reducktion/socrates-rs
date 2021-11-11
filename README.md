@@ -25,6 +25,7 @@ assert_eq!(citizen.place_of_birth.unwrap(), "Corrèze");
 * Add Belgium
 * Add Denmark
 * Add generator feature (Denmark)
+* Add Brazil validator
 
 ### 1.0.0
 Initial release
