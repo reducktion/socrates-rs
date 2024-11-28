@@ -19,17 +19,6 @@ assert_eq!(citizen.place_of_birth.unwrap(), "Corrèze");
     <img alt="Build" src="https://github.com/reducktion/socrates-rs/actions/workflows/build.yml/badge.svg?branch=master">
 </p>
 
-## Change Log
-
-### master
-* Add Belgium
-* Add Denmark
-* Add generator feature (Denmark)
-* Add Brazil validator
-
-### 1.0.0
-Initial release
-
 # Introduction
 This rust crate is a port of the [php package socrates](https://github.com/reducktion/socrates).
 

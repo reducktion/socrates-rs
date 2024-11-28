@@ -33,6 +33,7 @@ mod luxembourg;
 mod portugal;
 mod spain;
 mod usa;
+mod germany;
 
 pub fn get_validator(country: &country::Code) -> Box<dyn CountryValidator> {
     return match country {
@@ -46,6 +47,7 @@ pub fn get_validator(country: &country::Code) -> Box<dyn CountryValidator> {
         country::Code::LU => Box::new(luxembourg::LuxembourgValidator),
         country::Code::PT => Box::new(portugal::PortugalValidator),
         country::Code::US => Box::new(usa::UsaValidator),
+        country::Code::DE => Box::new(germany::GermanyValidator),
     };
 }
 

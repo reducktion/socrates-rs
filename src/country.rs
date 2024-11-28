@@ -14,4 +14,5 @@ pub enum Code {
     LU,
     PT,
     US,
+    DE
 }
