@@ -87,12 +87,16 @@ fn validate_checksum(id: &str, checksum: &str) -> bool {
 }
 
 fn validate_date(date: &str) -> bool {
-    let date_of_birth = NaiveDate::from_ymd(
+    let date_of_birth = NaiveDate::from_ymd_opt(
         date.get(0..4).unwrap().parse().unwrap(),
         date.get(4..6).unwrap().parse().unwrap(),
         date.get(6..8).unwrap().parse().unwrap(),
     );
-    return date_of_birth <= Utc::now().naive_local().date();
+
+    if date_of_birth.is_some() {
+        return date_of_birth.unwrap() <= Utc::now().naive_local().date();
+    }
+    false
 }
 
 #[cfg(test)]

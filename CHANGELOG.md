@@ -7,6 +7,7 @@
 * Add generator feature (Denmark)
 * Add Brazil validator
 * Add Germany validator
+* Add Mexico validator
 
 ### 1.0.0
 

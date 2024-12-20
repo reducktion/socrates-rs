@@ -87,7 +87,7 @@ mod tests {
         let validator = super::validator::germany::GermanyValidator;
         // test id (leading 0)
         assert_eq!(false, validator.validate_id("02476291358"));
-        // 3 digits or more are equal
+        // 4 digits or more are equal
         assert_eq!(false, validator.validate_id("44491234560"));
         // 3 consecutive digits
         assert_eq!(false, validator.validate_id("11145678908"));
