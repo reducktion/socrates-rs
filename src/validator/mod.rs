@@ -23,6 +23,7 @@ pub trait CountryValidator {
     }
 }
 
+mod albania;
 mod belgium;
 mod brazil;
 mod canada;
@@ -38,7 +39,7 @@ mod usa;
 mod words;
 
 pub fn get_validator(country: &country::Code) -> Box<dyn CountryValidator> {
-    return match country {
+    match country {
         country::Code::BE => Box::new(belgium::BelgiumValidator),
         country::Code::BR => Box::new(brazil::BrazilValidator),
         country::Code::CA => Box::new(canada::CanadaValidator),
@@ -51,7 +52,8 @@ pub fn get_validator(country: &country::Code) -> Box<dyn CountryValidator> {
         country::Code::US => Box::new(usa::UsaValidator),
         country::Code::DE => Box::new(germany::GermanyValidator),
         country::Code::MX => Box::new(mexico::MexicoValidator),
-    };
+        country::Code::AL => Box::new(albania::AlbaniaValidator),
+    }
 }
 
 #[cfg(test)]

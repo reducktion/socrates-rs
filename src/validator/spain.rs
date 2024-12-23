@@ -13,7 +13,7 @@ const CONTROL_DIGIT: &str = "TRWAGMYFPDXBNJZSQVHLCKE";
 **/
 impl validator::CountryValidator for SpainValidator {
     fn validate_id(&self, id: &str) -> bool {
-        let standard_id = id.replace("-", "").to_uppercase();
+        let standard_id = self.sanitize_id(id);
 
         if standard_id.len() != 9 {
             return false;

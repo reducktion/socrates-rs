@@ -18,11 +18,11 @@ pub(crate) struct ItalyValidator;
 **/
 impl validator::CountryValidator for ItalyValidator {
     fn validate_id(&self, id: &str) -> bool {
-        if id.len() != 16 {
+        let standard_id = self.sanitize_id(id);
+        if standard_id.len() != 16 {
             return false;
         }
 
-        let standard_id = id.to_uppercase();
         let mut is_odd = true;
         let mut sum: u32 = 0;
         for char in standard_id[0..15].chars() {

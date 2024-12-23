@@ -22,7 +22,7 @@ title: Steueridentifikationsnummer (IdNr) nach § 139b AO; Informationen zur Ber
 **/
 impl validator::CountryValidator for GermanyValidator {
     fn validate_id(&self, id: &str) -> bool {
-        let standard_id = id.replace(" ", "").replace("-", "");
+        let standard_id = self.sanitize_id(id);
 
         if standard_id.len() != 11 || &standard_id[0..1] == "0" {
             return false;

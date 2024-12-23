@@ -13,21 +13,21 @@ pub(crate) struct CanadaValidator;
 **/
 impl validator::CountryValidator for CanadaValidator {
     fn validate_id(&self, id: &str) -> bool {
-        let standard_id = id.replace(" ", "").replace("-", "");
+        let standard_id = self.sanitize_id(id);
 
         if standard_id.len() != 9 {
             return false;
         }
 
-        return algorithms::validate_luhn_10(&standard_id);
+        algorithms::validate_luhn_10(&standard_id)
     }
 
     fn country_code(&self) -> Code {
-        return crate::country::Code::CA;
+        Code::CA
     }
 
     fn extract_citizen(&self, _id: &str) -> Option<Citizen> {
-        return None;
+        None
     }
 }
 

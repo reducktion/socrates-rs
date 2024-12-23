@@ -11,7 +11,7 @@ pub(crate) struct PortugalValidator;
 **/
 impl validator::CountryValidator for PortugalValidator {
     fn validate_id(&self, id: &str) -> bool {
-        let standard_id = id.replace(" ", "").to_uppercase();
+        let standard_id = self.sanitize_id(id);
         if standard_id.len() != 12 {
             return false;
         }

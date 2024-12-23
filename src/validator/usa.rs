@@ -17,7 +17,7 @@ pub(crate) struct UsaValidator;
 **/
 impl validator::CountryValidator for UsaValidator {
     fn validate_id(&self, id: &str) -> bool {
-        let standard_id = id.replace(" ", "").replace("-", "");
+        let standard_id = self.sanitize_id(id);
 
         if standard_id.len() != 9 {
             return false;

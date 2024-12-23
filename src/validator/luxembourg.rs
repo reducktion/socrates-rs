@@ -13,7 +13,7 @@ pub(crate) struct LuxembourgValidator;
 **/
 impl validator::CountryValidator for LuxembourgValidator {
     fn validate_id(&self, id: &str) -> bool {
-        let standard_id = id.replace(" ", "").replace("-", "");
+        let standard_id = self.sanitize_id(id);
         if standard_id.len() != 13 {
             return false;
         }

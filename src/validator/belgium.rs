@@ -14,11 +14,7 @@ pub(crate) struct BelgiumValidator;
 **/
 impl validator::CountryValidator for BelgiumValidator {
     fn validate_id(&self, id: &str) -> bool {
-        let standard_id = id
-            .replace(" ", "")
-            .replace(".", "")
-            .replace("-", "")
-            .to_uppercase();
+        let standard_id = self.sanitize_id(id);
         if standard_id.len() != 11 {
             return false;
         }

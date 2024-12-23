@@ -16,7 +16,7 @@ pub(crate) struct FranceValidator;
 **/
 impl validator::CountryValidator for FranceValidator {
     fn validate_id(&self, id: &str) -> bool {
-        let standard_id = id.replace(" ", "");
+        let standard_id = self.sanitize_id(id);
         if standard_id.len() != 15 {
             return false;
         }

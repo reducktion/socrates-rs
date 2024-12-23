@@ -4,6 +4,7 @@ List of ISO country codes: https://en.wikipedia.org/wiki/List_of_ISO_3166_countr
 **/
 #[derive(EnumIter)]
 pub enum Code {
+    AL,
     BE,
     BR,
     CA,
