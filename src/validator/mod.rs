@@ -25,6 +25,7 @@ pub trait CountryValidator {
 
 mod albania;
 mod belgium;
+mod bosniaherzegovina;
 mod brazil;
 mod canada;
 mod denmark;
@@ -53,6 +54,7 @@ pub fn get_validator(country: &country::Code) -> Box<dyn CountryValidator> {
         country::Code::DE => Box::new(germany::GermanyValidator),
         country::Code::MX => Box::new(mexico::MexicoValidator),
         country::Code::AL => Box::new(albania::AlbaniaValidator),
+        country::Code::BA => Box::new(bosniaherzegovina::BosniaHerzegovinaValidator),
     }
 }
 

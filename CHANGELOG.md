@@ -9,6 +9,8 @@
 * Add Germany validator
 * Add Mexico validator
 * Add Albania validator
+* Add Bosnia Herzegovina
+* Add Yugoslavia
 
 ### 1.0.0
 
