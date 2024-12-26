@@ -11,6 +11,7 @@
 * Add Albania validator
 * Add Bosnia Herzegovina
 * Add Yugoslavia
+* Add Bulgaria
 
 ### 1.0.0
 

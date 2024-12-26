@@ -7,6 +7,7 @@ pub enum Code {
     AL,
     BA,
     BE,
+    BG,
     BR,
     CA,
     DK,

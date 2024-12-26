@@ -27,6 +27,7 @@ mod albania;
 mod belgium;
 mod bosniaherzegovina;
 mod brazil;
+mod bulgaria;
 mod canada;
 mod denmark;
 mod france;
@@ -55,6 +56,7 @@ pub fn get_validator(country: &country::Code) -> Box<dyn CountryValidator> {
         country::Code::MX => Box::new(mexico::MexicoValidator),
         country::Code::AL => Box::new(albania::AlbaniaValidator),
         country::Code::BA => Box::new(bosniaherzegovina::BosniaHerzegovinaValidator),
+        country::Code::BG => Box::new(bulgaria::BulgariaValidator),
     }
 }
 
