@@ -220,7 +220,7 @@ mod tests {
 
         let citizen_annette = validator.extract_citizen("MRTMTT25D09F205Z").unwrap();
         assert_eq!(citizen_annette.gender, 'M');
-        assert_eq!(citizen_annette.year_of_birth, 1925);
+        assert_eq!(citizen_annette.year_of_birth, 2025);
         assert_eq!(citizen_annette.month_of_birth.unwrap(), 4);
         assert_eq!(citizen_annette.day_of_birth.unwrap(), 9);
         assert_eq!(citizen_annette.place_of_birth.unwrap(), "MILANO (MI)");

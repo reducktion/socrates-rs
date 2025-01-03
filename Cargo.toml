@@ -1,6 +1,6 @@
 [package]
 name = "socrates_rs"
-version = "1.0.0"
+version = "1.1.0"
 authors = ["SLourenco <sergio.santos.lourenco@protonmail.com>"]
 edition = "2018"
 repository = "https://github.com/reducktion/socrates-rs"
@@ -15,5 +15,5 @@ chrono = "0.4"
 csv = "1.1"
 regex = "1.5.4"
 serde = { version = "1", features = ["derive"] }
-strum = "0.22.0"
-strum_macros = "0.22.0"
+strum = "0.26.3"
+strum_macros = "0.26.4"
