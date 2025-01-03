@@ -2,6 +2,8 @@
 
 ### master
 
+### 1.1.0
+
 * Add Belgium
 * Add Denmark
 * Add generator feature (Denmark)
